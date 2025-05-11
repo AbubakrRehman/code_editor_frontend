@@ -1,0 +1,30 @@
+.code-editor-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    gap: 10px;
+}
+
+textarea {
+    /* height: 100vh; */
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    font-family: 'Courier New', Courier, monospace;
+    resize: none;
+}
+.code-editor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ccc;
+}
+
+.code-editor-header button {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
