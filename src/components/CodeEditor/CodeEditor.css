@@ -14,6 +14,7 @@ textarea {
     font-family: 'Courier New', Courier, monospace;
     resize: none;
 }
+
 .code-editor-header {
     display: flex;
     justify-content: space-between;

@@ -1,12 +1,24 @@
 import React from 'react';
 import './CodeEditor.css';
 import { useState } from "react";
+import axios from 'axios';
+import Editor from '@monaco-editor/react';
 
 function CodeEditor() {
     const [code, setCode] = useState("");
+    const [output, setOutput] = useState("");
 
-    const handleRun = () => {
-        
+    const handleRun = async () => {
+        try {
+            const response = await axios.post('http://localhost:3000/execute', { code, extension: 'js' });
+            setOutput(response.data.output);
+        } catch (error) {
+
+        }
+    }
+
+    const handleEditorChange = (value) => {
+        setCode(value);
     }
 
     return (
@@ -16,12 +28,20 @@ function CodeEditor() {
                 <button className='run' onClick={handleRun}>Run</button>
             </section>
             <section className="code-editor-grid">
-                <textarea
+                {/* <textarea
                     placeholder='Enter code here.....'
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
+                /> */}
+                <Editor
+                    options={{  scrollBeyondLastLine: false,smoothScrolling: true, contextmenu: false, wordWrap: "off" }}
+                    theme='vs-dark'
+                    height="90vh"
+                    defaultLanguage="javascript"
+                    defaultValue={code}
+                    onChange={handleEditorChange}
                 />
-                <div>2</div>
+                <div>{output}</div>
             </section>
         </div>
     )
