@@ -55,7 +55,9 @@ function CodeEditor() {
                     defaultValue={code}
                     onChange={handleEditorChange}
                 />
-                <div>{output}</div>
+                <pre style={{ whiteSpace: "pre-wrap", tabSize: 4, paddingInline: "10px" }}>
+                    {output}
+                </pre>
             </section>
         </div>
     )
