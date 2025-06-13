@@ -11,9 +11,10 @@ function CodeEditor() {
     const handleRun = async () => {
         let intervalId = null;
         try {
-            const response = await axios.post('http://localhost:3000/execute', { code, extension: 'js' });
+            let backendDomain = import.meta.env.VITE_BACKEND_DOMAIN;
+            const response = await axios.post(`${backendDomain}/execute`, { code, extension: 'js' });
             intervalId = setInterval(async () => {
-                let jobDetails = await axios.get(`http://localhost:3000/job/${response.data.id}`);
+                let jobDetails = await axios.get(`${backendDomain}/job/${response.data.id}`);
                 if (jobDetails.data.status === "COMPLETED") {
                     setOutput(jobDetails.data.output);
                     clearInterval(intervalId);
