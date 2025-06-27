@@ -1,11 +1,15 @@
 import './App.css'
-import CodeEditor from './components/CodeEditor/CodeEditor'
+import { routes } from '../routes.tsx';
+import { RouterProvider, createBrowserRouter } from "react-router";
+import CodeProvider from './contexts/CodeProvider.tsx';
+const router = createBrowserRouter(routes);
 
 function App() {
 
-
   return (
-    <CodeEditor />
+    <CodeProvider>
+      <RouterProvider router={router} />
+    </CodeProvider>
   )
 }
 
