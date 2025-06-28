@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://quick-compile.netlify.app/</loc>
+  </url>
+  <url>
+    <loc>https://quick-compile.netlify.app/editor/c</loc>
+  </url>
+  <url>
+    <loc>https://quick-compile.netlify.app/editor/cpp</loc>
+  </url>
+  <url>
+    <loc>https://quick-compile.netlify.app/editor/python</loc>
+  </url>
+  <url>
+    <loc>https://quick-compile.netlify.app/editor/java</loc>
+  </url>
+  <url>
+    <loc>https://quick-compile.netlify.app/editor/javascript</loc>
+  </url>
+</urlset>
