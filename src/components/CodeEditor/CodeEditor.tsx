@@ -9,6 +9,11 @@ import { ButtonLoading } from '../ButtonLoading/ButtonLoading';
 import { extensions } from '@/constants/contants';
 import type { language } from '@/constants/contants';
 import { useCode } from '@/contexts/CodeProvider.tsx';
+import {
+    ResizableHandle,
+    ResizablePanel,
+    ResizablePanelGroup,
+} from "@/components/ui/resizable"
 
 type CodeEditorProps = {
     lang: language;
@@ -109,13 +114,13 @@ function CodeEditor(props: CodeEditorProps) {
                             <TabsContent value="editor">
                                 <Editor
                                     options={{
-                                            lineNumbers: "off",
-                                            minimap: { enabled: false },
-                                            scrollBeyondLastLine: false,
-                                            smoothScrolling: true,
-                                            contextmenu: false,
-                                            wordWrap: "off"
-                                        }}
+                                        lineNumbers: "off",
+                                        minimap: { enabled: false },
+                                        scrollBeyondLastLine: false,
+                                        smoothScrolling: true,
+                                        contextmenu: false,
+                                        wordWrap: "off"
+                                    }}
                                     theme='vs-dark'
                                     height="100%"
                                     language={lang || 'javascript'}
@@ -139,42 +144,53 @@ function CodeEditor(props: CodeEditorProps) {
                 </section>
                 :
                 <section className='hidden h-full lg:flex'>
-                    <section className='w-[60%]'>
-                        <header className='flex h-[40px] px-4 border items-center'>
-                            <span className='font-medium text-gray-900'>index.{extensions[lang]}</span>
-                            <div className='ms-auto'>
-                                {isLoading ? <ButtonLoading /> : <Button disabled={removeComments(codeMap[lang].value) === ''} className="hover:cursor-pointer" size="sm" variant="outline" onClick={handleRun}>Run</Button>}
-                            </div>
-                        </header>
-                        <section style={{ height: 'calc(100vh - 90px)' }}>
-                            <Editor
-                                options={{ scrollBeyondLastLine: false, smoothScrolling: true, contextmenu: false, wordWrap: "off" }}
-                                theme='vs-dark'
-                                height="100%"
-                                language={lang || 'javascript'}
-                                value={codeMap[lang].value || ''}
-                                onChange={handleEditorChange}
-                                onMount={(editor, monaco) => {
-                                    editor.addCommand(monaco.KeyCode.Escape, () => {
-                                        clearBtnRef.current?.focus()
-                                    });
-                                }}
-                            />
-                        </section>
-                    </section>
-                    <section className='w-[40%]'>
-                        <header className='flex h-[40px] px-4 border items-center'>
-                            <span className='font-medium text-gray-900'>Output</span>
-                            <div className='ms-auto'>
-                                <Button ref={clearBtnRef} className="hover:cursor-pointer" size="sm" variant="outline" onClick={handleClear}>Clear</Button>
-                            </div>
-                        </header>
-                        <section style={{ height: 'calc(100vh - 90px)' }}>
-                            <pre style={{ whiteSpace: "pre-wrap", tabSize: 4, paddingInline: "10px" }}>
-                                {codeMap[lang].output}
-                            </pre>
-                        </section>
-                    </section>
+
+                    <ResizablePanelGroup direction="horizontal">
+                        <ResizablePanel defaultSize={60}>
+                            <section>
+                                <header className='flex h-[40px] px-4 border items-center'>
+                                    <span className='font-medium text-gray-900'>index.{extensions[lang]}</span>
+                                    <div className='ms-auto'>
+                                        {isLoading ? <ButtonLoading /> : <Button disabled={removeComments(codeMap[lang].value) === ''} className="hover:cursor-pointer" size="sm" variant="outline" onClick={handleRun}>Run</Button>}
+                                    </div>
+                                </header>
+                                <section style={{ height: 'calc(100vh - 90px)' }}>
+                                    <Editor
+                                        options={{ scrollBeyondLastLine: false, smoothScrolling: true, contextmenu: false, wordWrap: "off" }}
+                                        theme='vs-dark'
+                                        height="100%"
+                                        language={lang || 'javascript'}
+                                        value={codeMap[lang].value || ''}
+                                        onChange={handleEditorChange}
+                                        onMount={(editor, monaco) => {
+                                            editor.addCommand(monaco.KeyCode.Escape, () => {
+                                                clearBtnRef.current?.focus()
+                                            });
+                                        }}
+                                    />
+                                </section>
+                            </section>
+                        </ResizablePanel>
+                        <ResizableHandle withHandle />
+                        <ResizablePanel defaultSize={40}>
+                            <section>
+                                <header className='flex h-[40px] px-4 border items-center'>
+                                    <span className='font-medium text-gray-900'>Output</span>
+                                    <div className='ms-auto'>
+                                        <Button ref={clearBtnRef} className="hover:cursor-pointer" size="sm" variant="outline" onClick={handleClear}>Clear</Button>
+                                    </div>
+                                </header>
+                                <section style={{ height: 'calc(100vh - 90px)' }}>
+                                    <pre style={{ whiteSpace: "pre-wrap", tabSize: 4, paddingInline: "10px" }}>
+                                        {codeMap[lang].output}
+                                    </pre>
+                                </section>
+                            </section>
+                        </ResizablePanel>
+                    </ResizablePanelGroup>
+
+
+
                 </section>
             }
         </div>
