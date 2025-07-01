@@ -18,7 +18,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
-
+import "../../App.css";
 
 function Code() {
 
@@ -49,21 +49,21 @@ function Code() {
                         </SheetTrigger>
                         <SheetContent side='left'>
                             <SheetHeader className='p-0 px-4 py-2'>
-                                <SheetTitle className='text-3xl text-red-400'>Quick Compile</SheetTitle>
+                                <SheetTitle className='text-3xl text-red-400 poppins font-normal'>Quick Compile</SheetTitle>
                             </SheetHeader>
                             <ul className='px-4'>
                                 {languageList.map((lang) => (
                                     <li key={lang.id} className=' h-11 border-b'>
                                         <NavLink onClick={handleClose} to={`/editor/${lang.key.toLowerCase()}`} className={({ isActive }) => (isActive ? 'h-full flex items-center gap-2 font-bold text-blue-500' : 'h-full flex items-center gap-2')}>
                                             <img src={lang.logo} alt={lang.title} className='w-9 object-contain' />
-                                            <span>{lang.title}</span>
+                                            <span className='poppins font-medium'>{lang.title}</span>
                                         </NavLink>
                                     </li>)
                                 )}
                             </ul>
                         </SheetContent>
                     </Sheet>
-                    <Link to="/" className='text-red-400'>Quick Compile</Link>
+                    <Link to="/" className='text-red-400 poppins font-medium'>Quick Compile</Link>
 
                 </div>
 

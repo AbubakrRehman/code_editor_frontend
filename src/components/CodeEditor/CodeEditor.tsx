@@ -14,6 +14,7 @@ import {
     ResizablePanel,
     ResizablePanelGroup,
 } from "@/components/ui/resizable"
+import "../../App.css"
 
 type CodeEditorProps = {
     lang: language;
@@ -100,13 +101,13 @@ function CodeEditor(props: CodeEditorProps) {
                         <Tabs className="h-full w-full" value={currTab} onValueChange={(value) => setCurrTab(value)}>
                             <div className='flex items-center justify-between px-2'>
                                 <TabsList>
-                                    <TabsTrigger ref={tabBtnRef} value="editor" className="cursor-pointer">index.{extensions[lang!]}</TabsTrigger>
-                                    <TabsTrigger value="output" className="cursor-pointer">Output</TabsTrigger>
+                                    <TabsTrigger ref={tabBtnRef} value="editor" className="cursor-pointer poppins font-medium">index.{extensions[lang!]}</TabsTrigger>
+                                    <TabsTrigger value="output" className="cursor-pointer poppins font-medium">Output</TabsTrigger>
                                 </TabsList>
                                 <div className="ml-auto">
                                     {isLoading ?
                                         <ButtonLoading /> :
-                                        <Button disabled={removeComments(codeMap[lang].value) === ''} className="hover:cursor-pointer" size="sm" variant="outline" onClick={handleRun}>Run</Button>
+                                        <Button disabled={removeComments(codeMap[lang].value) === ''} className="hover:cursor-pointer poppins font-normal" size="sm" variant="outline" onClick={handleRun}>Run</Button>
                                     }
                                 </div>
                             </div>
@@ -134,9 +135,16 @@ function CodeEditor(props: CodeEditorProps) {
                                 />
                             </TabsContent>
                             <TabsContent value="output">
-                                <pre style={{ whiteSpace: "pre-wrap", tabSize: 4, paddingInline: "10px" }}>
-                                    {codeMap[lang].output}
-                                </pre>
+                                <section className='ubuntu-mono font-normal px-3'>
+                                    {!codeMap[lang].output ?
+                                        <div className=' text-gray-400'>
+                                            Output will appear here...
+                                        </div>
+                                        : <pre style={{ whiteSpace: "pre-wrap", tabSize: 4 }}>
+                                            <code>{codeMap[lang].output}</code>
+                                        </pre>
+                                    }
+                                </section>
                             </TabsContent>
                         </Tabs>
                     </section>
@@ -145,53 +153,58 @@ function CodeEditor(props: CodeEditorProps) {
                 :
                 <section className='hidden h-full lg:flex'>
 
-                    <ResizablePanelGroup direction="horizontal">
-                        <ResizablePanel defaultSize={60}>
-                            <section>
-                                <header className='flex h-[40px] px-4 border items-center'>
-                                    <span className='font-medium text-gray-900'>index.{extensions[lang]}</span>
-                                    <div className='ms-auto'>
-                                        {isLoading ? <ButtonLoading /> : <Button disabled={removeComments(codeMap[lang].value) === ''} className="hover:cursor-pointer" size="sm" variant="outline" onClick={handleRun}>Run</Button>}
-                                    </div>
-                                </header>
-                                <section style={{ height: 'calc(100vh - 90px)' }}>
-                                    <Editor
-                                        options={{ scrollBeyondLastLine: false, smoothScrolling: true, contextmenu: false, wordWrap: "off" }}
-                                        theme='vs-dark'
-                                        height="100%"
-                                        language={lang || 'javascript'}
-                                        value={codeMap[lang].value || ''}
-                                        onChange={handleEditorChange}
-                                        onMount={(editor, monaco) => {
-                                            editor.addCommand(monaco.KeyCode.Escape, () => {
-                                                clearBtnRef.current?.focus()
-                                            });
-                                        }}
-                                    />
-                                </section>
+                <ResizablePanelGroup direction="horizontal" className='sdsd'>
+                    <ResizablePanel defaultSize={60} minSize={30}>
+                        <section>
+                            <header className='flex h-[40px] px-4 border items-center'>
+                                <span className='text-gray-900 poppins font-medium'>index.{extensions[lang]}</span>
+                                <div className='ms-auto'>
+                                    {isLoading ? <ButtonLoading /> : <Button disabled={removeComments(codeMap[lang].value) === ''} className="hover:cursor-pointer poppins font-normal" size="sm" variant="outline" onClick={handleRun}>Run</Button>}
+                                </div>
+                            </header>
+                            <section style={{ height: 'calc(100vh - 90px)' }}>
+                                <Editor
+                                    options={{ scrollBeyondLastLine: false, smoothScrolling: true, contextmenu: false, wordWrap: "off" }}
+                                    theme='vs-dark'
+                                    height="100%"
+                                    language={lang || 'javascript'}
+                                    value={codeMap[lang].value || ''}
+                                    onChange={handleEditorChange}
+                                    onMount={(editor, monaco) => {
+                                        editor.addCommand(monaco.KeyCode.Escape, () => {
+                                            clearBtnRef.current?.focus()
+                                        });
+                                    }}
+                                />
                             </section>
-                        </ResizablePanel>
-                        <ResizableHandle withHandle />
-                        <ResizablePanel defaultSize={40}>
-                            <section>
-                                <header className='flex h-[40px] px-4 border items-center'>
-                                    <span className='font-medium text-gray-900'>Output</span>
-                                    <div className='ms-auto'>
-                                        <Button ref={clearBtnRef} className="hover:cursor-pointer" size="sm" variant="outline" onClick={handleClear}>Clear</Button>
+                        </section>
+                    </ResizablePanel>
+                    <ResizableHandle withHandle />
+                    <ResizablePanel defaultSize={40} minSize={20}>
+                        <section>
+                            <header className='flex h-[40px] px-4 border items-center'>
+                                <span className='text-gray-900 poppins font-medium'>Output</span>
+                                <div className='ms-auto'>
+                                    <Button ref={clearBtnRef} className="hover:cursor-pointer poppins font-normal" size="sm" variant="outline" onClick={handleClear}>Clear</Button>
+                                </div>
+                            </header>
+                            <section style={{ height: 'calc(100vh - 90px)' }} className='ubuntu-mono font-normal px-3'>
+                                {!codeMap[lang].output ?
+                                    <div className=' text-gray-400'>
+                                        Output will appear here...
                                     </div>
-                                </header>
-                                <section style={{ height: 'calc(100vh - 90px)' }}>
-                                    <pre style={{ whiteSpace: "pre-wrap", tabSize: 4, paddingInline: "10px" }}>
-                                        {codeMap[lang].output}
+                                    : <pre style={{ whiteSpace: "pre-wrap", tabSize: 4 }}>
+                                        <code>{codeMap[lang].output}</code>
                                     </pre>
-                                </section>
+                                }
                             </section>
-                        </ResizablePanel>
-                    </ResizablePanelGroup>
+                        </section>
+                    </ResizablePanel>
+                </ResizablePanelGroup>
 
 
 
-                </section>
+                 </section>
             }
         </div>
     )
